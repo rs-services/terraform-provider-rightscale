@@ -3,7 +3,7 @@ package rightscale
 import (
 	"github.com/hashicorp/terraform/helper/schema"
 
-	"fmt"
+	"log"
 	"sync"
 
 	"gopkg.in/rightscale/rsc.v5/cm15"
@@ -51,7 +51,7 @@ func resourceRightScaleDeploymentCreate(d *schema.ResourceData, meta interface{}
 	})
 
 	if err != nil {
-		fmt.Errorf("[RIGHTSCALE] DEPLOYMENT CREATE ERROR: %s", err.Error())
+		log.Printf("[RIGHTSCALE] DEPLOYMENT CREATE ERROR: %s", err.Error())
 	}
 
 	// Set this resource id to RightScale HREF
@@ -69,10 +69,10 @@ func resourceRightScaleDeploymentRead(d *schema.ResourceData, meta interface{}) 
 	deployment, err := client.DeploymentLocator(d.Id()).Show(rsapi.APIParams{})
 
 	if err != nil {
-		fmt.Printf("[RIGHTSCALE] DEPLOYMENT READ ERROR %s", err.Error())
+		log.Printf("[RIGHTSCALE] DEPLOYMENT READ ERROR %s", err.Error())
 	}
 
-	fmt.Printf("[RIGHTSCALE] DESCRIPTION: %s", deployment.Description)
+	log.Printf("[RIGHTSCALE] DESCRIPTION: %s", deployment.Description)
 	return nil
 }
 
