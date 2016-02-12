@@ -19,12 +19,6 @@ func resourceRightScaleDeployment() *schema.Resource {
 		Delete: resourceRightScaleDeploymentDelete,
 
 		Schema: map[string]*schema.Schema{
-			/*			"href": &schema.Schema{
-							Type:     schema.TypeString,
-							Computed: true,
-							ForceNew: true,
-						},
-			*/
 			"name": &schema.Schema{
 				Type:     schema.TypeString,
 				Required: true,

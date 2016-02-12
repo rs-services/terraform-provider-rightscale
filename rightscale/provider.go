@@ -15,28 +15,16 @@ func Provider() terraform.ResourceProvider {
 				DefaultFunc: schema.EnvDefaultFunc("RS_ACCOUNT_ID", nil),
 			},
 
-			//			"refresh_token": &schema.Schema{
-			//				Type:        schema.TypeString,
-			//				Required:    false,
-			//				DefaultFunc: schema.EnvDefaultFunc("RS_REFRESH_TOKEN", nil),
-			//			},
+			"refresh_token": &schema.Schema{
+				Type:        schema.TypeString,
+				Required:    true,
+				DefaultFunc: schema.EnvDefaultFunc("RS_REFRESH_TOKEN", nil),
+			},
 
 			"api_host": &schema.Schema{
 				Type:        schema.TypeString,
 				Required:    true,
 				DefaultFunc: schema.EnvDefaultFunc("RS_API_HOST", nil),
-			},
-
-			"password": &schema.Schema{
-				Type:        schema.TypeString,
-				Required:    true,
-				DefaultFunc: schema.EnvDefaultFunc("RS_PASSWORD", nil),
-			},
-
-			"email": &schema.Schema{
-				Type:        schema.TypeString,
-				Required:    true,
-				DefaultFunc: schema.EnvDefaultFunc("RS_EMAIL", nil),
 			},
 		},
 
@@ -51,11 +39,9 @@ func Provider() terraform.ResourceProvider {
 
 func configureProvider(d *schema.ResourceData) (interface{}, error) {
 	config := Config{
-		// RefreshToken: d.Get("refresh_token").(string),
-		AccountID: d.Get("account_id").(int),
-		APIHost:   d.Get("api_host").(string),
-		Password:  d.Get("password").(string),
-		Email:     d.Get("email").(string),
+		AccountID:    d.Get("account_id").(int),
+		RefreshToken: d.Get("refresh_token").(string),
+		APIHost:      d.Get("api_host").(string),
 	}
 
 	return config.Client()
