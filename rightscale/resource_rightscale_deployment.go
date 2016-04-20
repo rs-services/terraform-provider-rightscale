@@ -16,19 +16,22 @@ func resourceRightScaleDeployment() *schema.Resource {
 	return &schema.Resource{
 		Create: resourceRightScaleDeploymentCreate,
 		Read:   resourceRightScaleDeploymentRead,
+		Update: resourceRightScaleDeploymentUpdate,
 		Delete: resourceRightScaleDeploymentDelete,
 
 		Schema: map[string]*schema.Schema{
 			"name": &schema.Schema{
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
+				Type:        schema.TypeString,
+				Required:    true,
+				ForceNew:    false,
+				Description: "Deployment name",
 			},
 
 			"description": &schema.Schema{
-				Type:     schema.TypeString,
-				Optional: true,
-				ForceNew: true, //FIX
+				Type:        schema.TypeString,
+				Optional:    true,
+				ForceNew:    false,
+				Description: "Deployment description",
 			},
 		},
 	}
@@ -62,12 +65,32 @@ func resourceRightScaleDeploymentRead(d *schema.ResourceData, meta interface{}) 
 	client := meta.(*cm15.API)
 	deployment, err := client.DeploymentLocator(d.Id()).Show(rsapi.APIParams{})
 
+	d.Set("name", deployment.Name)
+	d.Set("description", deployment.Description)
+
 	if err != nil {
 		log.Printf("[RIGHTSCALE] DEPLOYMENT READ ERROR %s", err.Error())
 	}
 
-	log.Printf("[RIGHTSCALE] DESCRIPTION: %s", deployment.Description)
 	return nil
+}
+
+func resourceRightScaleDeploymentUpdate(d *schema.ResourceData, meta interface{}) error {
+	client := meta.(*cm15.API)
+
+	if d.HasChange("description") {
+		if err := client.DeploymentLocator(d.Id()).Update(&cm15.DeploymentParam{Description: d.Get("description").(string)}); err != nil {
+			return err
+		}
+	}
+
+	if d.HasChange("name") {
+		if err := client.DeploymentLocator(d.Id()).Update(&cm15.DeploymentParam{Name: d.Get("name").(string)}); err != nil {
+			return err
+		}
+	}
+
+	return resourceRightScaleDeploymentRead(d, meta)
 }
 
 func resourceRightScaleDeploymentDelete(d *schema.ResourceData, meta interface{}) error {
