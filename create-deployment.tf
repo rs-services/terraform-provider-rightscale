@@ -9,10 +9,6 @@ provider "rightscale" {
 }
 
 resource "rightscale_deployment" "stefhen" {
-  name        = "stefhen_terraform_created_deployment"
-  description = "Test deployment created with Terraform"
-}
-
-output "rightscale_deployment.href" {
-  value = "${rightscale_deployment.stefhen.id}"
+  name        = "stefhen_terraform_created_deployment5"
+  description = "Test deployment created with Terraform5"
 }
