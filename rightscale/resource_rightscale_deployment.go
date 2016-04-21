@@ -94,5 +94,12 @@ func resourceRightScaleDeploymentUpdate(d *schema.ResourceData, meta interface{}
 }
 
 func resourceRightScaleDeploymentDelete(d *schema.ResourceData, meta interface{}) error {
+	client := meta.(*cm15.API)
+	err := client.DeploymentLocator(d.Id()).Destroy()
+
+	if err != nil {
+		log.Printf("[RIGHTSCALE] DEPLOYMENT DELETE ERROR: %s", err.Error())
+	}
+
 	return nil
 }
