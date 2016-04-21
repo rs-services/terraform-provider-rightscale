@@ -12,6 +12,14 @@ resource "rightscale_deployment" "stefhen" {
   name        = "Stefhen Created from Terraform"
   description = "UPDATED !!! Description from Terraform"
 }
+resource "rightscale_ssh_key" "stefhen_test" {
+  name = "stefhen_test"
+  cloud_href = "/api/clouds/7/ssh_keys"
+}
+
+output "rightscale_ssh_key.stefhen_test.id" {
+  value = "${rightscale_ssh_key.stefhen_test.id}"
+}
 
 output "rightscale_deployment.stefhen.href" {
   value = "${rightscale_deployment.stefhen.id}"
