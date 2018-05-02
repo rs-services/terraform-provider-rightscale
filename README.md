@@ -3,14 +3,5 @@ RightScale Terraform Provider
 
 
 
-* Note this is still very alpha quality.
+* Note this repo has moved to https://github.com/rightscale/terraform-provider-rightscale
 
-
-How to build and run:
--------------------
-
-````bash
-$ go get ...
-$ go build -o terraform-provider-rightscale
-$ terraform apply
-```
